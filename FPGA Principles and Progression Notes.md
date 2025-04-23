@@ -176,4 +176,31 @@ Xilinx first introduced 18x18 hard multiplier blocks, with Altera later implemen
 
 DSP blocks are crucial for applications involving arithmetic operations, particularly multiply-accumulate (MAC), which is core to signal processing and deep learning
 
-In addition, FIR filters are a key use case. Figure 17 illustrates a systolic symmetric FIR filter12 . Early DSP blocks could implement portions of this structure (highlighted by dotted boxes). Later blocks, like those in Stratix V, could implement the entire symmetric FIR filter structure within the DSP block8 .
+In addition, FIR filters are a key use case. Figure 17 illustrates a systolic symmetric FIR filter. Early DSP blocks could implement portions of this structure (highlighted by dotted boxes). Later blocks, like those in Stratix V, could implement the entire symmetric FIR filter structure within the DSP block.
+
+#### Deep Learning
+Deep learning (DL) has become a major workload, with MACs as a core operation. While low-precision MACs can be implemented in soft logic, DSP blocks are increasingly optimized for DL inference
+This has resulted in the following: 
+High-performance computing (HPC): Adding native support for single-precision floating-point (fp32) multiplication
+Increased density for low-precision integer multiplication: Specifically targeting DL inference, which often uses 8-bit or narrower operands
+
+**Example** Intel's Agilex DSP block supports int9, half-precision floating-point (fp16), and brain float (bfloat16)15 . Xilinx Versal supports int8 multiplications in its DSP58 tiles
+
+
+There have also been shifts toward AI tensor blocks. These blocks may introduce features like data reuse register networks to efficiently feed inputs to the large number of multipliers
+
+
+### Interposers
+Interposers serve as a means to bridge multiple silicon dice together with dense interconnections. 
+
+This is especially useful because state-of-the-art fabrication processes result in low yield, so breaking the silicon into smaller die will help with yield. 
+
+Another motivation is to enable integration of different specialized chiplets 
+
+The core challenge is that interposer connections are larger and slower than the fine-grained routing tracks within a single die. This can limit the amount of routing bandwidth that can cross die boundaries. FPGA vendors address this through CAD tools that optimize placement to minimize inter-die crossings and architectural changes that improve the flexibility of connections to interposer tracks. Using high-bandwidth, packet-switched structures like the NoC is an efficient way to utilize the limited interposer bandwidth
+
+
+### Other FPGA Components
+There are many other FPGA components such as the configuration circuitry, enabling **partial reconfiguration**
+
+There are also encoders to encrypt bitstreams for security measures.
