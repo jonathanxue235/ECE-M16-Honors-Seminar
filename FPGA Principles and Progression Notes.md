@@ -60,7 +60,7 @@ When architectures moved towards fracturable LUTs, they started adding a second 
 
 
 
-![[Pasted image 20250416132758.png]]
+![[Images/Pasted image 20250416132758.png]]
 Pulse latch is more area efficient but there are cons (**research this**)
 
 
