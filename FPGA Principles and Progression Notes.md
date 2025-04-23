@@ -23,7 +23,7 @@ We want to weigh the pros and cons of whether a block should be hardened or not,
 ### FPGA Architecture Evolution
 #### Programmable Logic
 In the early days, FPGAs consisted of programmable array logic (PAL) architectures, which consisted of a bunch of `AND` gates feeding into a bunch of `OR` gates. 
-![[./Images/Pasted image 20250416113631.png]]
+![[./Images/0416113631.png]]
 ##### Problems with this architecture
 Not scalable, as number of programmable switches grew exponentially with the increase in complexity. 
 
@@ -33,8 +33,8 @@ Xilinx pioneered the first lookup-table-based (LUT-based) FPGA in 1984, which co
 LUT-based FPGAs dominate to this day. 
 
 A K-LUT can implement any K-input Boolean function by storing its truth table in configuration SRAM cells
-![[./Images/Pasted image 20250416122206.png]]
-![[./Images/Pasted image 20250416114800.png]]
+![[./Images/0416122206.png]]
+![[./Images/0416114800.png]]
 To better help understand the architecture of a LUT, here's a good [link](https://hardwarebee.com/overview-of-lookup-tables-in-fpga-design/)
 
 LUTs are a truth tables. Essentially, the compiler for HDL just compiles all of the logic and stores it as a truth table. They are stored in SRAM cells
@@ -43,11 +43,11 @@ LUTs have increased gradually (the number k has increased over the years)
 
 #### High-Level Overview of FPGA Architecture
 **Basic Logic Element (BLE)** consists of a K-LUT coupled with an output register and bypassing 2:1 multiplexers 
-![[./Images/Pasted image 20250416121835.png]]
+![[./Images/0416121835.png]]
 This allows the BLE to both implement combinational and sequential logic (flip flops)
 
 **Logic Blocks (LB)** are made up of a bunch of BLEs and local interconnects, which consists of multiplexers made up of signal sources (BLE outputs and logic block inputs) and destinations (BLE inputs)
-![[./Images/Pasted image 20250416122148.png]]
+![[./Images/0416122148.png]]
 
 Size of LUTs (K) and LBs (N) have increased over the years. However, an increase in K is exponential, but the speed increase given is linear, so the tradeoff is not great after a certain point. 
 N. Ahmed and Rose [24] empirically evaluated these trade-offs and concluded that LUTs of size 4–6 and LBs of size 3–10 BLEs offer the best area-delay product for an FPGA architecture, with 4-LUTs leading to a better area but 6-LUTs yielding a higher speed
@@ -55,12 +55,12 @@ N. Ahmed and Rose [24] empirically evaluated these trade-offs and concluded that
 #### Fracturable LUTs
 The adaptive logic module (ALM) in the Stratix II architecture implemented a {6, 2}-LUT that had 8 input and 2 output ports. Thus, an ALM can implement a 6-LUT or two 5-LUTs sharing 2 inputs (and therefore a total of 8 distinct inputs). Pairs of smaller LUTs could also be implemented without any shared inputs, such as two 4-LUTs or one 5-LUT and one 3-LUT. With a fracturable 6-LUT, larger logic functions are implemented in 6-LUTs reducing the logic levels on the critical path and achieving performance improvement. On the other hand, smaller logic functions can be packed together (each us- ing only half an ALM), improving area-efficiency. The LB in Stratix II not only increased the performance by 15%, but also reduced the logic and routing area by 2.6% com- pared to a baseline 4-LUT-based LB.
 
-![[./Images/Pasted image 20250416123901.png]]
+![[./Images/0416123901.png]]
 When architectures moved towards fracturable LUTs, they started adding a second Flip Flop (FF) and later on more flip flops as shown in the Stratix V architecture
 
 
 
-![[./Images/Pasted image 20250416132758.png]]
+![[./Images/0416132758.png]]
 Pulse latch is more area efficient but there are cons (**research this**)
 
 
@@ -74,7 +74,7 @@ Pulse latch is more area efficient but there are cons (**research this**)
 #### Deep Learning Applications
 Many modern ML tasks require significant Multiply Accumulate (MAC) operations. Thus, there are specialized FPGAs that have hardened things that help with MAC. The most promising solutions (as of this paper) can increase speed by 1.7x. 
 
-![[./Images/Pasted image 20250416133714.png]]
+![[./Images/0416133714.png]]
 
 
 ### Programmable Routing
@@ -83,7 +83,7 @@ Two main classes of FPGA routing architecture: hierarchical FPGAs and
 
 #### Hierarchical FPGAs
 More frequent LBs are closer to each other. Less frequently communicated LBs are further apart.
-![[./Images/Pasted image 20250416145031.png]]
+![[./Images/0416145031.png]]
 Now obsolete due to the long wiring required for information to be sent from one end to another
 
 #### Island-Style FPGAs
@@ -92,7 +92,7 @@ Island-style routing includes three components: routing wire segments, connectio
 
 
 Some of the routing architecture parameters include: how many routing wires each logic block input or output can connect to ($F_c$), how many other routing wires each wire can connect to ($F_s$), the lengths of the routing wire segments, the routing switch pattern, the electrical design of the wires and switches themselves, and the number of routing wires per channel.
-![[./Images/Pasted image 20250416151451.png]]
+![[./Images/0416151451.png]]
 
 $F_c$ = how many routing wires each logic block input or output can connect to 
 $F_s$ = how many other routing wires each wire can connect to
@@ -135,7 +135,7 @@ However, as the need for memory grew for various use cases, FPGAs began to imple
 
 **BRAM** consisted of an SRAM-based memory core with additional peripheral circuitry to make them more configurable for multiple purposes and to con- nect them to the programmable routing. 
 
-![[./Images/Pasted image 20250423121651.png]]
+![[./Images/0423121651.png]]
 
 **The main architectural decisions in designing FPGA BRAMs are choosing their capacity, data word width, and number of read/write ports. More capable BRAMs cost more silicon area, so architects must carefully balance BRAM design choices while taking into account the most common use cases in application circuits.**
 
@@ -162,7 +162,7 @@ FPGA vendor CAD tools include a RAM mapping stage that automatically implements 
 ![[./Images/Fig13.png]]
 
 Trend of memory to logic ratio on FPGAs
-![[./Images/Pasted image 20250423123007.png]]
+![[./Images/0423123007.png]]
 
 
 Magnetic Tunnel Junctions could serve as a possible replacement to the currently dominating SRAM based BRAMs in FPGAs. 
@@ -172,7 +172,7 @@ Magnetic Tunnel Junctions could serve as a possible replacement to the currently
 As multiplier needs increased with signal processing and communication demands, multipliers became a topic of hardening as dedicated circuits in FPGAs. 
 Xilinx first introduced 18x18 hard multiplier blocks, with Altera later implementing a dedicated DSP block
 
-![[./Images/Pasted image 20250423125242.png]]
+![[./Images/0423125242.png]]
 
 DSP blocks are crucial for applications involving arithmetic operations, particularly multiply-accumulate (MAC), which is core to signal processing and deep learning
 
